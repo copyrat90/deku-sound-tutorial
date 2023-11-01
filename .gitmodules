@@ -1,0 +1,3 @@
+[submodule "libugba"]
+	path = libugba
+	url = https://github.com/AntonioND/libugba.git

@@ -118,13 +118,17 @@ OBJECTS	:= $(foreach source,$(SOURCES),$(call obj,$(source)))
 DEPENDS	:= $(foreach source,$(SOURCES),$(call dep,$(source)))
 DIRS	:= $(dir $(BUILDDIR) $(OBJECTS) $(DEPENDS) $(GEN_S) $(GEN_I) $(GEN_B))
 
+# ugba
+UGBA_DIR	:= ../../libugba
+UGBA_LIB	:= $(UGBA_DIR)/lib/libugba.a
+
 #
 # Targets
 #
 
 ifeq ($(strip $(BUILD_LIB)),)
 $(ROMFILE): $(ELFFILE)
-$(ELFFILE): $(OBJECTS)
+$(ELFFILE): $(UGBA_LIB) $(OBJECTS)
 else
 $(LIBFILE): $(OBJECTS)
 endif
@@ -182,6 +186,9 @@ $(BUILDDIR)/gen_bin/soundbank.bin $(BUILDDIR)/gen_inc/soundbank.h &: $(AUDIO)
 	@echo "rom     $@"
 	$(SILENT)$(OBJCOPY) -O binary $< $@
 	$(SILENT)$(GBAFIX) $@ $(GFFLAGS) >&-
+
+$(UGBA_LIB):
+	$(MAKE) -C ../../libugba
 
 dirs:
 	$(SILENT)mkdir -p $(DIRS)

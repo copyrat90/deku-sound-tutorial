@@ -1,4 +1,6 @@
 #include <tonc.h>
+#include "cr90_irq_wrapper.h"
+
 #include "Piano.raw.h"
 
 void isr_timer1_stop_playback()
@@ -25,12 +27,13 @@ int main(void)
 {
     REG_DISPCNT = DCNT_MODE0 | DCNT_BG0;
 
-    irq_init(NULL);
-    irq_enable(II_VBLANK);
-    irq_enable(II_TIMER1);
+    cr90_irq_init();
 
-    irq_add(II_TIMER1, isr_timer1_stop_playback);
-    // irq_add(II_TIMER1, isr_timer1_loop_playback);
+    cr90_irq_set_handler(CR90_IRQ_TIMER1, isr_timer1_stop_playback);
+    // cr90_irq_set_handler(CR90_IRQ_TIMER1, isr_timer1_loop_playback);
+
+    cr90_irq_enable(CR90_IRQ_VBLANK);
+    cr90_irq_enable(CR90_IRQ_TIMER1);
 
     // init Direct Sound A w/ Timer 0
     REG_SNDSTAT = SSTAT_ENABLE;

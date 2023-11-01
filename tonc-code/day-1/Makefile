@@ -41,20 +41,20 @@ AUDIO_FILES	:=
 GRAPHICS	:=
 
 # Source files to compile
-SOURCES		:= src/main.c
+SOURCES		:= src/*.c
 
 # Include directories
-INCLUDES	:=
+INCLUDES	:= src
 
 #
 # Dependencies
 #
 
 # Library directories, with /include and /lib
-LIBDIRS		:= $(DEVKITPRO)/libtonc
+LIBDIRS		:= $(DEVKITPRO)/libtonc ../../libugba
 
 # Libraries to link
-LIBS		:= tonc
+LIBS		:= tonc ugba
 
 #
 # Directories
